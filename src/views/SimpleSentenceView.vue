@@ -42,6 +42,7 @@ const reset = () => {
 
 watch(id, async()=> {
   await loadNouns();
+  speak();
 })
 
 const speak = () => {

@@ -42,8 +42,16 @@ const reset = () => {
 
 watch(id, async()=> {
   await loadNouns();
-  speak();
+  speak()
 })
+
+const stopSpeech = () => {
+  if (currentUtterance) {
+    currentUtterance.onend = null; // Clear onend handler
+    speechSynthesis.cancel();
+    // speaking.value = false;
+  }
+};
 
 const speak = () => {
   const words = line.value.split(':');
@@ -91,6 +99,7 @@ const speak = () => {
     <p v-if="data">{{data.en_sentence}}</p>
     <button @click="speak">Read</button>
     <button @click="next">Next</button>
+    <button @click="stopSpeech">Stop</button>
     </div>
     <div v-if="error">
       <p>{{error}}</p>

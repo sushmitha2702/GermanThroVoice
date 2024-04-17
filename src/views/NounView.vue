@@ -9,28 +9,14 @@ const data = ref(null)
 const rate= ref(0.3)
 const pitch= ref(1)
 const counterStore = useCounterStore()
+let currentUtterance = null;
 const { noun_min_count, noun_count_per_call } = storeToRefs(counterStore);
 
-let currentUtterance = null;
 const stopSpeech = () => {
   if (currentUtterance) {
-    console.log(currentUtterance)
     currentUtterance.onend = null; // Clear onend handler
     speechSynthesis.cancel();
     // speaking.value = false;
-  }
-};
-
-const toggleSpeech = () => {
-  if (currentUtterance && !currentUtterance.paused) {
-    speechSynthesis.pause();
-  } else {
-    if (currentUtterance && currentUtterance.paused) {
-      speechSynthesis.resume();
-    } else {
-      const words = inputText.value.split(' ');
-      speakWord(words, 0); // Start speaking from the first word
-    }
   }
 };
 
@@ -91,6 +77,9 @@ const speak = () => {
       words[index] === 'en-US' ? index = index + 2 : index = index + 3
       console.log(index)
       currentUtterance = utterance;
+    }  else {
+      setTimeout(() => {}, 1000);
+      loadNext();
     }
   };
   speakWord(); // Start speaking
@@ -109,6 +98,7 @@ const loadNext = () => {
 
 watch(noun_min_count, async (newCount, oldCount) => {
   await loadNouns();
+  speak()
 });
 
 </script>
@@ -150,7 +140,6 @@ watch(noun_min_count, async (newCount, oldCount) => {
         {{ pitch }}
       </div>
       <button @click="stopSpeech">Stop</button>
-      <button @click="toggleSpeech">{{ speaking ? 'Pause' : 'Speak' }}</button>
     </div>
   </div>
   </main>

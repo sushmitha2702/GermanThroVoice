@@ -45,7 +45,6 @@ const getNounObj = (text, lang, type) => {
 
 const speak = () => {
   const words = finalSentence.value.split(' ');
-  console.log(finalSentence)
   let index = 0;
 
   const speakWord = () => {

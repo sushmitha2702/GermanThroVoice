@@ -11,5 +11,9 @@ export const useCounterStore = defineStore('counter', () => {
     return noun_min_count.value + noun_count_per_call.value
   }
 
-  return { noun_min_count, noun_count_per_call, verb_min_count, verb_count_per_call, sentence_count, noun_max_count }
+  function verb_max_count() {
+    return verb_min_count.value + verb_count_per_call.value
+  }
+
+  return { noun_min_count, noun_count_per_call, verb_min_count, verb_count_per_call, sentence_count, noun_max_count, verb_max_count }
 })

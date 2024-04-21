@@ -9,6 +9,7 @@ import { RouterLink, RouterView } from 'vue-router'
         <RouterLink to="/"><h1>Nouns</h1></RouterLink>
         <RouterLink to="/verb"><h1>Verbs</h1></RouterLink>
         <RouterLink to="/simple-sentence"><h1>Simple Sentence</h1></RouterLink>
+        <RouterLink to="/a1-wordlist"><h1>A1 Wordlist</h1></RouterLink>
       </nav>
     </div>
   </header>

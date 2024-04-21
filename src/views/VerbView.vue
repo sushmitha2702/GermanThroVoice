@@ -33,9 +33,8 @@ const loadVerbs = async () => {
 }
 
 const formatDataForSpeak = (data) => {
-  finalSentence.value = finalSentence.value + getVerbObj(data.eng_noun, data.eng_noun_lang)
-  finalSentence.value = finalSentence.value + getVerbObj(data.de_noun_singular, data.de_noun_singular_lang)
-  finalSentence.value = finalSentence.value + getVerbObj(data.de_noun_plural, data.de_noun_plural_lang)
+  finalSentence.value = finalSentence.value + getVerbObj(data.en_verb, data.en_lang)
+  finalSentence.value = finalSentence.value + getVerbObj(data.de_verb, data.de_lang)
 }
 
 const getVerbObj = (text, lang) => {

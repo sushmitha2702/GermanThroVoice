@@ -36,6 +36,10 @@ const next = () => {
   id.value = id.value + 1;
 }
 
+const previous = () => {
+    if (id.value > 1) id.value = id.value - 1;
+}
+
 const reset = () => {
   id.value = 1;
 }
@@ -99,6 +103,7 @@ const speak = () => {
       <h1 v-if="data">{{ data.en_sentence }}</h1>
       <div class="buttons">
         <button @click="speak">Read</button>
+        <button @click="previous">Previous</button>
         <button @click="next">Next</button>
         <button @click="stopSpeech">Stop</button>
       </div>

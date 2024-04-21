@@ -39,11 +39,11 @@ const formatDataForSpeak = (data) => {
 
 const getVerbObj = (text, lang) => {
   //return lang + ' ' + type + ' ' + text + ' ' // with singular / plural
-  return lang + ' ' + text + ' '
+  return lang + ':' + text + ':'
 }
 
 const speak = () => {
-  const words = finalSentence.value.split(' ');
+  const words = finalSentence.value.split(':');
   let index = 0;
 
   const speakWord = () => {

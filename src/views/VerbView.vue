@@ -107,7 +107,8 @@ watch(verb_min_count, async (newCount, oldCount) => {
   <main class="sentence">
     <div class="content">
     <div class="left-content">
-      <h1>Noun</h1>
+      <h1>Verb</h1>
+      {{finalSentence}}
       <table>
         <tr v-for="d in data">
           <td>

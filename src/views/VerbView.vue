@@ -55,7 +55,7 @@ const speak = () => {
         text = words[index + 1]
       } else if (words[index] === 'de_DE') {
         words[index] = 'de-DE'
-        text = words[index + 1] + ' ' + words[index + 2]
+        text = words[index + 1] 
         //text = words[index + 1] + ' ' + words[index + 2] + ' ' + words[index + 3] // with singular plural attached
       }
       console.log(text)
@@ -74,7 +74,7 @@ const speak = () => {
       speechSynthesis.speak(utterance);
       //words[index] === 'en-US' ? index = index + 3 : index = index + 4 // with singular plural attached
 
-      words[index] === 'en-US' ? index = index + 2 : index = index + 3
+      index = index + 2
       console.log(index)
       currentUtterance = utterance;
     }  else {

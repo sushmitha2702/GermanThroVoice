@@ -61,7 +61,7 @@ const speak = () => {
       console.log(text)
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = words[index]; //'de-DE' ; // Set German language
-      utterance.rate = rate.value; // Adjust rate (0.1 is default)
+      utterance.rate = if (words[index] === 'en-US' ? '0.3' : rate.value; // Adjust rate (0.1 is default)
       utterance.pitch = pitch.value; // Adjust pitch (1.0 is default)
       utterance.onend = () => {
         setTimeout(() => {

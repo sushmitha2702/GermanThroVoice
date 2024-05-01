@@ -46,7 +46,7 @@ const formatDataForSpeak = (data) => {
 const checkForRepetition = (sen) => {
   let inc = 1
   let res = sen
-  if ( inc < repetition ) {
+  if ( inc < repetition.value ) {
     res = res + sen
     inc = inc + 1
     checkForRepetition(sen)
@@ -118,6 +118,11 @@ watch(verb_min_count, async (newCount, oldCount) => {
   speak()
 });
 
+watch(repetition.value, async (newCount, oldCount) => {
+  await loadVerbs();
+  speak()
+});
+
 </script>
 <template>
   <main class="sentence">
@@ -140,9 +145,9 @@ watch(verb_min_count, async (newCount, oldCount) => {
     </div>
     <div class="right-content">
       <select name="repetition" v-model="repetition">
-        <option value="1" />
-        <option value="2" />
-        <option value="3" />
+        <option value="1" > 1 </option>
+        <option value="2" > 2 </option>
+        <option value="3" > 3 </option>
       </select>
       <p>{{repetition}}</p>
       <button @click="loadPrev">Prev</button>

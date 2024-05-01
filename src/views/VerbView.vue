@@ -9,7 +9,8 @@ const data = ref(null)
 const rate= ref(0.3)
 const pitch= ref(1)
 const counterStore = useCounterStore()
-let currentUtterance = null;
+let currentUtterance = null
+const repetition = ref(1)
 const { verb_min_count, verb_count_per_call } = storeToRefs(counterStore);
 
 const stopSpeech = () => {
@@ -33,8 +34,24 @@ const loadVerbs = async () => {
 }
 
 const formatDataForSpeak = (data) => {
-  finalSentence.value = finalSentence.value + getVerbObj(data.en_verb, data.en_lang)
-  finalSentence.value = finalSentence.value + getVerbObj(data.de_verb, data.de_lang)
+  let sentence = getVerbObj(data.en_verb, data.en_lang)
+  finalSentence.value = finalSentence.value + checkForRepetition(sentence)
+  sentence = getVerbObj(data.de_verb, data.de_lang)
+  // finalSentence.value = finalSentence.value + getVerbObj(data.en_verb, data.en_lang)
+  // finalSentence.value = finalSentence.value + getVerbObj(data.de_verb, data.de_lang)
+  finalSentence.value = finalSentence.value + checkForRepetition(sentence)
+  
+}
+
+const checkForRepetition = (sen) => {
+  let inc = 1
+  let res = sen
+  if ( inc < repetition ) {
+    res = res + sen
+    inc = inc + 1
+    checkForRepetition(sen)
+  }
+  return res;
 }
 
 const getVerbObj = (text, lang) => {
@@ -122,6 +139,12 @@ watch(verb_min_count, async (newCount, oldCount) => {
       </table>
     </div>
     <div class="right-content">
+      <select name="repetition" v-model="repetition">
+        <option value="1" />
+        <option value="2" />
+        <option value="3" />
+      </select>
+      <p>{{repetition}}</p>
       <button @click="loadPrev">Prev</button>
       <button @click="speak">Read</button>
       <button @click="loadNext">Next</button>

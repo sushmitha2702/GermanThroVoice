@@ -10,6 +10,8 @@ const rate= ref(0.3)
 const pitch= ref(1)
 const counterStore = useCounterStore()
 let currentUtterance = null
+let inc = 1
+let recursiveResponse = "";
 const repetition = ref(1)
 const { verb_min_count, verb_count_per_call } = storeToRefs(counterStore);
 
@@ -26,7 +28,7 @@ onMounted(async () => {
 })
 
 const loadVerbs = async () => {
-  const res = await supabase.from('verbs').select().gt('id', verb_min_count.value).lte('id', counterStore.verb_max_count())
+  const res = await supabase.from('verbs').select().gt('id', verb_min_count.value).lte('id', counterStore.verb_max_count()) // 'id',counterStore.verb_max_count()
   data.value = res.data
   for (let i = 0; i < data.value.length; i++) {
     formatDataForSpeak(data.value[i])
@@ -35,24 +37,16 @@ const loadVerbs = async () => {
 
 const formatDataForSpeak = (data) => {
   let sentence = getVerbObj(data.en_verb, data.en_lang)
-  finalSentence.value = finalSentence.value + checkForRepetition(sentence)
-  sentence = getVerbObj(data.de_verb, data.de_lang)
-  // finalSentence.value = finalSentence.value + getVerbObj(data.en_verb, data.en_lang)
-  // finalSentence.value = finalSentence.value + getVerbObj(data.de_verb, data.de_lang)
-  finalSentence.value = finalSentence.value + checkForRepetition(sentence)
-  
+  sentence = sentence + getVerbObj(data.de_verb, data.de_lang)
+  checkForRepetition(sentence)
+  console.log(finalSentence.value)
 }
 
 const checkForRepetition = (sen) => {
-  let inc = 1
-  let res = sen
-  if ( inc < repetition.value ) {
-    res = res + sen
-    inc = inc + 1
-    checkForRepetition(sen)
+  for (let i = 0; i < parseInt(repetition.value); i++) {
+    finalSentence.value = finalSentence.value + sen
   }
-  return res;
-}
+};
 
 const getVerbObj = (text, lang) => {
   //return lang + ' ' + type + ' ' + text + ' ' // with singular / plural
@@ -60,6 +54,7 @@ const getVerbObj = (text, lang) => {
 }
 
 const speak = () => {
+console.log(finalSentence.value)
   const words = finalSentence.value.split(':');
   let index = 0;
 
@@ -108,17 +103,17 @@ const loadPrev = () => {
     finalSentence.value=''
   }
 }
-const loadNext = () => {
+const loadNext = async() => {
   verb_min_count.value = verb_min_count.value + verb_count_per_call.value
   finalSentence.value=''
 }
 
-watch(verb_min_count, async (newCount, oldCount) => {
+const handleChange = async () => {
+  finalSentence.value=''
   await loadVerbs();
-  speak()
-});
+}
 
-watch(repetition.value, async (newCount, oldCount) => {
+watch(verb_min_count, async (newCount, oldCount) => {
   await loadVerbs();
   speak()
 });
@@ -144,12 +139,14 @@ watch(repetition.value, async (newCount, oldCount) => {
       </table>
     </div>
     <div class="right-content">
-      <select name="repetition" v-model="repetition">
+      <select name="repetition" v-model="repetition" @change="handleChange">
         <option value="1" > 1 </option>
         <option value="2" > 2 </option>
         <option value="3" > 3 </option>
+        <option value="4" > 4 </option>
+        <option value="5" > 5 </option>
+        <option value="6" > 6 </option>
       </select>
-      <p>{{repetition}}</p>
       <button @click="loadPrev">Prev</button>
       <button @click="speak">Read</button>
       <button @click="loadNext">Next</button>

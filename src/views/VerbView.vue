@@ -201,4 +201,29 @@ button {
 button:hover {
   background-color: hsl(190, 100%, 30%); /* Darker green on hover */
 }
+
+
+/* Select style */
+select {
+  background-color: hsl(190, 100%, 50%);
+  border: none;
+  color: black;
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: background-color 0.3s;
+}
+
+/* Styling options within the select */
+select option {
+  background-color: hsl(190, 100%, 50%);
+  color: black;
+  font-size: 16px;
+}
+
+/* Darker color on hover for select */
+select:hover {
+  background-color: hsl(190, 100%, 30%);
+}
 </style>
